@@ -1,4 +1,3 @@
-@echo off
 set version=2.22.0
 echo version %version%
 echo ******************* MENU **********************
