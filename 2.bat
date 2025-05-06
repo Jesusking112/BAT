@@ -1,4 +1,4 @@
-set version=3.0.0
+set version=3.1.0
 
 set URL=
 msg * Bienvenido a mi intento de herramienta
