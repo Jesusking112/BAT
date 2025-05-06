@@ -1,11 +1,8 @@
 set version=3.0.0
 echo version %version%
-
 set URL=
 msg * Bienvenido a mi intento de herramienta
-
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :Base
 cls
 echo ******************************** Menu de Opciones ***********************************
@@ -29,7 +26,6 @@ echo.
 echo 0 Salir
 echo.
 set /p B1="Selecciona una opcion (0-X): "
-
 if "%B1%"=="1" goto menu
 if "%B1%"=="2" goto comprimir_vid
 if "%B1%"=="3" goto vid_txt_vid
@@ -45,7 +41,6 @@ if "%B1%"=="b3" goto blodware_win_11
 if "%B1%"=="c1" goto opc_red_sub_menu
 if "%B1%"=="0" exit
 goto Base
-
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,7 +57,6 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :comprimir_vid
 cls
 echo ------------------------------------------------
@@ -101,7 +95,6 @@ echo.
 echo Proceso finalizado.
 pause
 goto Base
-
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -118,7 +111,6 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :buscador_win
 cls
 setlocal enabledelayedexpansion
@@ -138,7 +130,6 @@ if !encontrado! equ 0 (
 )
 pause
 goto Base
-
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -155,7 +146,6 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :menuss
 cls
 echo ================================================
@@ -174,7 +164,6 @@ echo 6. Convertir desde ALAC - M4A
 echo 7. Convertir desde AAC
 echo 0. Regresar
 set /p option=Elige una opción (1-7 o 0 para salir): 
-
 if "%option%"=="a" goto validar_opcion
 if "%option%"=="1" goto mp3_options
 if "%option%"=="2" goto ogg_options
@@ -187,7 +176,6 @@ if "%option%"=="0" goto Base
 echo Opción no válida. Regresando al menú...
 pause
 goto menuss
-
 :validar_opcion
 @echo off
 echo ================================================
@@ -201,9 +189,7 @@ for %%f in (%file%.*) do (
 
 pause
 goto menuss
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :mp3_options
 cls
 echo ================================================
@@ -217,7 +203,6 @@ echo 5. Convertir MP3 a AIFF
 echo 6. Convertir MP3 a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_mp3_to_wav
 if "%option%"=="2" goto convert_mp3_to_ogg
 if "%option%"=="3" goto convert_mp3_to_flac
@@ -228,7 +213,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de MP3...
 pause
 goto mp3_options
-
 :convert_mp3_to_wav
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -236,7 +220,6 @@ ffmpeg -i "%file%.mp3" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto mp3_options
-
 :convert_mp3_to_ogg
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -244,7 +227,6 @@ ffmpeg -i "%file%.mp3" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto mp3_options
-
 :convert_mp3_to_flac
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -252,7 +234,6 @@ ffmpeg -i "%file%.mp3" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto mp3_options
-
 :convert_mp3_to_aac
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -260,7 +241,6 @@ ffmpeg -i "%file%.mp3" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto mp3_options
-
 :convert_mp3_to_aiff
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -268,7 +248,6 @@ ffmpeg -i "%file%.mp3" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto mp3_options
-
 :convert_mp3_to_alac
 echo Ingresa el nombre del archivo MP3 (sin la extensión .mp3):
 set /p file= 
@@ -276,9 +255,7 @@ ffmpeg -i "%file%.mp3" "%~dpn1.m4a"
 echo Conversión a ALAC completada: "%~dpn1.m4a"
 pause
 goto mp3_options
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :ogg_options
 cls
 echo ================================================
@@ -292,7 +269,6 @@ echo 5. Convertir OGG a AIFF
 echo 6. Convertir OGG a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_ogg_to_mp3
 if "%option%"=="2" goto convert_ogg_to_wav
 if "%option%"=="3" goto convert_ogg_to_flac
@@ -303,7 +279,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de OGG...
 pause
 goto ogg_options
-
 :convert_ogg_to_mp3
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -311,7 +286,6 @@ ffmpeg -i "%file%.ogg" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto ogg_options
-
 :convert_ogg_to_wav
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -319,7 +293,6 @@ ffmpeg -i "%file%.ogg" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto ogg_options
-
 :convert_ogg_to_flac
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -327,7 +300,6 @@ ffmpeg -i "%file%.ogg" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto ogg_options
-
 :convert_ogg_to_aac
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -335,7 +307,6 @@ ffmpeg -i "%file%.ogg" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto ogg_options
-
 :convert_ogg_to_aiff
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -343,7 +314,6 @@ ffmpeg -i "%file%.ogg" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto ogg_options
-
 :convert_ogg_to_alac
 echo Ingresa el nombre del archivo OGG (sin la extensión .ogg):
 set /p file= 
@@ -354,7 +324,6 @@ goto ogg_options
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :flac_options
 cls
 echo ================================================
@@ -368,7 +337,6 @@ echo 5. Convertir FLAC a AIFF
 echo 6. Convertir FLAC a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_flac_to_mp3
 if "%option%"=="2" goto convert_flac_to_wav
 if "%option%"=="3" goto convert_flac_to_ogg
@@ -379,7 +347,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de FLAC...
 pause
 goto flac_options
-
 :convert_flac_to_mp3
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -387,7 +354,6 @@ ffmpeg -i "%file%.flac" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto flac_options
-
 :convert_flac_to_wav
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -395,7 +361,6 @@ ffmpeg -i "%file%.flac" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto flac_options
-
 :convert_flac_to_ogg
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -403,7 +368,6 @@ ffmpeg -i "%file%.flac" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto flac_options
-
 :convert_flac_to_aac
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -411,7 +375,6 @@ ffmpeg -i "%file%.flac" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto flac_options
-
 :convert_flac_to_aiff
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -419,7 +382,6 @@ ffmpeg -i "%file%.flac" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto flac_options
-
 :convert_flac_to_alac
 echo Ingresa el nombre del archivo FLAC (sin la extensión .flac):
 set /p file= 
@@ -427,9 +389,7 @@ ffmpeg -i "%file%.flac" "%~dpn1.m4a"
 echo Conversión a ALAC completada: "%~dpn1.m4a"
 pause
 goto flac_options
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :wav_options
 cls
 echo ================================================
@@ -443,7 +403,6 @@ echo 5. Convertir WAV a AIFF
 echo 6. Convertir WAV a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_wav_to_mp3
 if "%option%"=="2" goto convert_wav_to_ogg
 if "%option%"=="3" goto convert_wav_to_flac
@@ -454,7 +413,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de WAV...
 pause
 goto wav_options
-
 :convert_wav_to_mp3
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -462,7 +420,6 @@ ffmpeg -i "%file%.wav" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto wav_options
-
 :convert_wav_to_ogg
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -470,7 +427,6 @@ ffmpeg -i "%file%.wav" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto wav_options
-
 :convert_wav_to_flac
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -478,7 +434,6 @@ ffmpeg -i "%file%.wav" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto wav_options
-
 :convert_wav_to_aac
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -486,7 +441,6 @@ ffmpeg -i "%file%.wav" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto wav_options
-
 :convert_wav_to_aiff
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -494,7 +448,6 @@ ffmpeg -i "%file%.wav" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto wav_options
-
 :convert_wav_to_alac
 echo Ingresa el nombre del archivo WAV (sin la extensión .wav):
 set /p file= 
@@ -502,10 +455,7 @@ ffmpeg -i "%file%.wav" "%~dpn1.m4a"
 echo Conversión a ALAC completada: "%~dpn1.m4a"
 pause
 goto wav_options
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :aiff_options
 cls
 echo ================================================
@@ -519,7 +469,6 @@ echo 5. Convertir AIFF a WAV
 echo 6. Convertir AIFF a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_aiff_to_mp3
 if "%option%"=="2" goto convert_aiff_to_ogg
 if "%option%"=="3" goto convert_aiff_to_flac
@@ -530,7 +479,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de AIFF...
 pause
 goto aiff_options
-
 :convert_aiff_to_mp3
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -538,7 +486,6 @@ ffmpeg -i "%file%.aiff" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto aiff_options
-
 :convert_aiff_to_ogg
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -546,7 +493,6 @@ ffmpeg -i "%file%.aiff" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto aiff_options
-
 :convert_aiff_to_flac
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -554,7 +500,6 @@ ffmpeg -i "%file%.aiff" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto aiff_options
-
 :convert_aiff_to_aac
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -562,7 +507,6 @@ ffmpeg -i "%file%.aiff" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto aiff_options
-
 :convert_aiff_to_wav
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -570,7 +514,6 @@ ffmpeg -i "%file%.aiff" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto aiff_options
-
 :convert_aiff_to_alac
 echo Ingresa el nombre del archivo AIFF (sin la extensión .aiff):
 set /p file= 
@@ -578,10 +521,7 @@ ffmpeg -i "%file%.aiff" "%~dpn1.m4a"
 echo Conversión a ALAC completada: "%~dpn1.m4a"
 pause
 goto aiff_options
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :alac_options
 cls
 echo ================================================
@@ -595,7 +535,6 @@ echo 5. Convertir ALAC a WAV
 echo 6. Convertir ALAC a AIFF
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_alac_to_mp3
 if "%option%"=="2" goto convert_alac_to_ogg
 if "%option%"=="3" goto convert_alac_to_flac
@@ -606,7 +545,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de ALAC...
 pause
 goto alac_options
-
 :convert_alac_to_mp3
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -614,7 +552,6 @@ ffmpeg -i "%file%.m4a" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto alac_options
-
 :convert_alac_to_ogg
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -622,7 +559,6 @@ ffmpeg -i "%file%.m4a" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto alac_options
-
 :convert_alac_to_flac
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -630,7 +566,6 @@ ffmpeg -i "%file%.m4a" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto alac_options
-
 :convert_alac_to_aac
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -638,7 +573,6 @@ ffmpeg -i "%file%.m4a" "%~dpn1.aac"
 echo Conversión a AAC completada: "%~dpn1.aac"
 pause
 goto alac_options
-
 :convert_alac_to_wav
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -646,7 +580,6 @@ ffmpeg -i "%file%.m4a" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto alac_options
-
 :convert_alac_to_aiff
 echo Ingresa el nombre del archivo ALAC (sin la extensión .m4a):
 set /p file= 
@@ -654,10 +587,7 @@ ffmpeg -i "%file%.m4a" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto alac_options
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 :aac_options
 cls
 echo ================================================
@@ -671,7 +601,6 @@ echo 5. Convertir AAC a AIFF
 echo 6. Convertir AAC a ALAC
 echo 0. Regresar
 set /p option=Selecciona el formato de salida (1-6 o 0 para regresar): 
-
 if "%option%"=="1" goto convert_aac_to_mp3
 if "%option%"=="2" goto convert_aac_to_ogg
 if "%option%"=="3" goto convert_aac_to_flac
@@ -682,7 +611,6 @@ if "%option%"=="0" goto menuss
 echo Opción no válida. Regresando a opciones de AAC...
 pause
 goto aac_options
-
 :convert_aac_to_mp3
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
@@ -690,7 +618,6 @@ ffmpeg -i "%file%.aac" "%~dpn1.mp3"
 echo Conversión a MP3 completada: "%~dpn1.mp3"
 pause
 goto aac_options
-
 :convert_aac_to_ogg
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
@@ -698,7 +625,6 @@ ffmpeg -i "%file%.aac" "%~dpn1.ogg"
 echo Conversión a OGG completada: "%~dpn1.ogg"
 pause
 goto aac_options
-
 :convert_aac_to_flac
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
@@ -706,7 +632,6 @@ ffmpeg -i "%file%.aac" "%~dpn1.flac"
 echo Conversión a FLAC completada: "%~dpn1.flac"
 pause
 goto aac_options
-
 :convert_aac_to_wav
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
@@ -714,7 +639,6 @@ ffmpeg -i "%file%.aac" "%~dpn1.wav"
 echo Conversión a WAV completada: "%~dpn1.wav"
 pause
 goto aac_options
-
 :convert_aac_to_aiff
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
@@ -722,7 +646,6 @@ ffmpeg -i "%file%.aac" "%~dpn1.aiff"
 echo Conversión a AIFF completada: "%~dpn1.aiff"
 pause
 goto aac_options
-
 :convert_aac_to_alac
 echo Ingresa el nombre del archivo AAC (sin la extensión .aac):
 set /p file= 
