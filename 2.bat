@@ -1451,3 +1451,67 @@ taskkill /f /im explorer.exe & start explorer & exit /b 0
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:privacidad_win_11
+cls
+openfiles >nul 2>&1
+if %errorlevel% neq 0 (
+    color 4
+    echo This script requires administrator privileges.
+    echo Please run WinScript as an administrator.
+    pause
+    exit /b 1
+)
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Disabling Biometrics (Breaks Windows Hello)
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Biometrics" /v "Enabled" /t REG_DWORD /d "0" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Biometrics\Credential Provider" /v "Enabled" /t "REG_DWORD" /d "0" /f
+echo -- Disabling Auto Map Downloads
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AllowUntriggeredNetworkTrafficOnSettingsPage" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AutoDownloadAndUpdateMapData" /t REG_DWORD /d 0 /f
+echo -- Disabling Cloud Sync
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableSyncOnPaidNetwork" /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" /v "SyncPolicy" /t REG_DWORD /d 5 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableApplicationSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableApplicationSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableAppSyncSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableAppSyncSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableCredentialsSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableCredentialsSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\Credentials" /v "Enabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableDesktopThemeSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableDesktopThemeSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisablePersonalizationSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisablePersonalizationSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableStartLayoutSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableStartLayoutSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWebBrowserSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWebBrowserSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWebBrowserSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWebBrowserSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWindowsSettingSync" /t REG_DWORD /d 2 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v "DisableWindowsSettingSyncUserOverride" /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\Language" /t REG_DWORD /v "Enabled" /d 0 /f
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
