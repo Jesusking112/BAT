@@ -1,6 +1,7 @@
 set version=3.1.0
 
-net session >nul 2>&1
+set sessionss=1
+net session >nul 2>&%sessionss%
 if %errorlevel% neq 0 (
     echo Este script requiere permisos de administrador.
     echo Solicitando permisos...
@@ -1224,7 +1225,8 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :telemetria_win_11
 cls
-openfiles >nul 2>&1
+set openfilesss=1
+openfiles >nul 2>&%openfilesss%
 if %errorlevel% neq 0 (
     color 4
     echo This script requires administrator privileges.
@@ -1461,7 +1463,8 @@ taskkill /f /im explorer.exe & start explorer & exit /b 0
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :privacidad_win_11
 cls
-openfiles >nul 2>&1
+set openfilesss=1
+openfiles >nul 2>&%openfilesss%
 if %errorlevel% neq 0 (
     color 4
     echo This script requires administrator privileges.
