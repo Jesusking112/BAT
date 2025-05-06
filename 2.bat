@@ -957,3 +957,199 @@ echo Descargando audio...
 yt-dlp.exe -f 233 -o "%FILE_NAME%.mp3" %URL%
 pause
 goto menu
+
+
+
+
+
+
+
+set /p URL="URL: "
+echo.
+echo URL establecida: %URL%
+pause
+goto menu
+
+:video_o_audio
+cls
+set "panel=1"
+goto personalizado2
+
+:personalizado
+cls
+set "panel=2"
+:personalizado2
+echo El audio predeterminado es: 233
+echo El video asegurate que diga extencion mp4, en base a eso la calidad
+set /p FILE_NAME="Introduce un nombre para el archivo final: "
+echo Obteniendo las calidades disponibles...
+echo ------------------ Formatos disponibles ------------------
+yt-dlp.exe -F %URL% | findstr /i "audio only"
+echo.
+echo Seleciona el codigo de la primera linea de cada renglon para especificar
+echo             El audio y video tienen que ser compatibles
+set /p AUDIO_FORMAT="Introduce el codigo de la calidad de audio (ejemplo: 233): "
+set /p VIDEO_FORMAT="Introduce el codigo de la calidad de video (ejemplo: 231): "
+
+if "%panel%"=="1" goto personalizadosin
+if "%panel%"=="2" goto personalizadomezcla
+
+:personalizadosin
+echo Descargando video...
+yt-dlp.exe -f %VIDEO_FORMAT% -o "%FILE_NAME%.mp4" %URL%
+echo Descargando audio...
+yt-dlp.exe -f %AUDIO_FORMAT% -o "%FILE_NAME%.mp3" %URL%
+pause
+goto menu
+
+:personalizadomezcla
+echo Descargando video...
+yt-dlp.exe -f %VIDEO_FORMAT% -o "%FILE_NAME%_video" %URL%
+echo Descargando audio...
+yt-dlp.exe -f %AUDIO_FORMAT% -o "%FILE_NAME%_audio" %URL%
+echo Combinando video y audio con ffmpeg...
+ffmpeg -i "%FILE_NAME%_video" -i "%FILE_NAME%_audio" -c:v copy -c:a aac -strict experimental "%FILE_NAME%.mp4"
+del "%FILE_NAME%_video"
+del "%FILE_NAME%_audio"
+echo ¡Descarga y combinación completadas!
+pause
+goto menu
+
+:best_quality
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+yt-dlp.exe -f bestvideo+bestaudio --write-sub --output "%(title)s.%(ext)s" %URL%
+pause
+goto menu
+
+:download_subtitles
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+yt-dlp.exe --write-sub %URL%
+pause
+goto menu
+
+:download_private
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+echo Ingresa el archivo de cookies
+set /p cookies_file="Archivo de cookies: "
+yt-dlp.exe --cookies %cookies_file% %URL%
+pause
+goto menu
+
+:download_mp4_playlist
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+yt-dlp.exe -f mp4 --yes-playlist %URL%
+pause
+goto menu
+
+:download_proxy
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+echo Ingresa la URL del proxy ejemplo http://proxy.example.com:8080
+set /p proxy="Proxy: "
+yt-dlp.exe --proxy %proxy% %URL%
+pause
+goto menu
+
+:limit_speed
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+echo Ingresa el limite de velocidad ejemplo 500K
+set /p speed_limit="Limite de velocidad: "
+yt-dlp.exe --limit-rate %speed_limit% %URL%
+pause
+goto menu
+
+:download_other_sites
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL Vuelve a la opcion 1 para establecerla
+    pause
+    goto menu
+)
+yt-dlp.exe %URL%
+pause
+goto menu
+
+:best_audio
+cls
+if "%URL%"=="" (
+    echo No se ha establecido una URL. Vuelve a la opcion 1 para establecerla.
+    pause
+    goto menu
+)
+yt-dlp.exe -f bestaudio %URL%
+
+:na
+setlocal enabledelayedexpansion
+if not exist "musica_mp3" (
+    mkdir musica_mp3
+    echo Carpeta "musica_mp3" creada.
+)
+
+for %%f in (*.webm *.m4a *.opus *.flac *.aac) do (
+    set "filename=%%~nf"
+    set "filename=!filename:\=_!"
+    set "filename=!filename:/=_!"
+    set "filename=!filename::=_!"
+    set "filename=!filename:*=_!"
+    set "filename=!filename:?=_!"
+    set "filename=!filename:<=_!"
+    set "filename=!filename:>=_!"
+    set "filename=!filename:|=_!"
+    set "filename=!filename:\"=_!"
+
+    if /i "%%~xf" neq ".mp3" (
+        ffmpeg -i "%%f" -vn -acodec libmp3lame -ar 44100 -ac 2 -ab 192k "musica_mp3\!filename!.mp3"
+        echo El archivo %%f ha sido convertido a: musica_mp3\!filename!.mp3
+    )
+)
+
+for %%f in (*.webm *.m4a *.opus *.flac *.aac) do (
+    if exist "%%f" (
+        del /f "%%f"
+        echo El archivo %%f ha sido eliminado.
+    )
+)
+
+echo.
+echo Los archivos convertidos han sido guardados en la carpeta "musica_mp3".
+echo Por favor, elimine los restos de archivos originales no deseados.
+pause
+endlocal
+goto menu
+
+:audio_minimo
+set /p FILE_NAME="Introduce un nombre para el audio: "
+echo Descargando audio...
+yt-dlp.exe -f 233 -o "%FILE_NAME%.mp3" %URL%
+pause
+goto menu
+
