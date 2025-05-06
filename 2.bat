@@ -1322,14 +1322,6 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :telemetria_win_11
 cls
-openfiles >nul 2>&1
-if %errorlevel% neq 0 (
-    color 4
-    echo This script requires administrator privileges.
-    echo Please run WinScript as an administrator.
-    pause
-    exit /b 1
-)
 setlocal EnableExtensions DisableDelayedExpansion
 echo -- Disabling CCleaner telemetry
 reg add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_DWORD /d 0 /f
