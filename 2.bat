@@ -1,13 +1,4 @@
-set version=3.1.0
-
-set sessionss=1
-net session >nul 2>&%sessionss%
-if %errorlevel% neq 0 (
-    echo Este script requiere permisos de administrador.
-    echo Solicitando permisos...
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
-    exit /b
-)
+set version=2.0.0
 
 set URL=
 msg * Bienvenido a mi intento de herramienta
@@ -1225,15 +1216,7 @@ goto Base
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :telemetria_win_11
 cls
-set openfilesss=1
-openfiles >nul 2>&%openfilesss%
-if %errorlevel% neq 0 (
-    color 4
-    echo This script requires administrator privileges.
-    echo Please run WinScript as an administrator.
-    pause
-    exit /b 1
-)
+
 setlocal EnableExtensions DisableDelayedExpansion
 echo -- Disabling CCleaner telemetry
 reg add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_DWORD /d 0 /f
@@ -1463,15 +1446,7 @@ taskkill /f /im explorer.exe & start explorer & exit /b 0
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :privacidad_win_11
 cls
-set openfilesss=1
-openfiles >nul 2>&%openfilesss%
-if %errorlevel% neq 0 (
-    color 4
-    echo This script requires administrator privileges.
-    echo Please run WinScript as an administrator.
-    pause
-    exit /b 1
-)
+
 setlocal EnableExtensions DisableDelayedExpansion
 echo -- Disabling Biometrics (Breaks Windows Hello)
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Biometrics" /v "Enabled" /t REG_DWORD /d "0" /f
@@ -1521,14 +1496,6 @@ taskkill /f /im explorer.exe & start explorer & exit /b 0
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :blodware_win_11
 cls
-openfiles >nul 2>&1
-if %errorlevel% neq 0 (
-    color 4
-    echo This script requires administrator privileges.
-    echo Please run WinScript as an administrator.
-    pause
-    exit /b 1
-)
 
 echo -----------------------------------------------
 echo    Bienvenido al Menú de Opciones de Windows 11
