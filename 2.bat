@@ -1,5 +1,5 @@
 @echo off
-set version=2.20.0
+set version=2.21.0
 echo version %version%
 echo ******************* MENU **********************
 echo 1) Nueva herramienta brutal
