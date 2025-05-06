@@ -3,7 +3,7 @@ set version=2.20.0
 echo version %version%
 echo ******************* MENU **********************
 echo 1) Nueva herramienta brutal
-echo 2) Co
+echo 2)
 echo 3)
 echo a
 echo e
