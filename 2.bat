@@ -1,5 +1,13 @@
 set version=3.1.0
 
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Este script requiere permisos de administrador.
+    echo Solicitando permisos...
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
+
 set URL=
 msg * Bienvenido a mi intento de herramienta
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
