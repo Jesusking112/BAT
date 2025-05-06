@@ -1508,9 +1508,393 @@ taskkill /f /im explorer.exe & start explorer & exit /b 0
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:blodware_win_11
+cls
+openfiles >nul 2>&1
+if %errorlevel% neq 0 (
+    color 4
+    echo This script requires administrator privileges.
+    echo Please run WinScript as an administrator.
+    pause
+    exit /b 1
+)
 
+echo -----------------------------------------------
+echo    Bienvenido al Menú de Opciones de Windows 11
+echo -----------------------------------------------
+echo 1. Desinstalar OneDrive
+echo 2. Desinstalar Microsoft Edge
+echo 3. Desinstalar Widgets
+echo 4. Desinstalar Microsoft Store
+echo 5. Desinstalar Xbox Apps
+echo 6. Desinstalar Extensiones
+echo 7. Desinstalar Microsoft Apps
+echo 8. Desinstalar Apps de terceros
+echo 9. Desactivar Widgets de la Barra de Tareas
+echo 10. Remover Copilot
+echo 0 regresar
+echo -----------------------------------------------
+set /p blodware_op="Seleccione una opción (1-11): "
 
+:: Validar la opción seleccionada
+if "%blodware_op%"=="1" goto blodware_op_1
+if "%blodware_op%"=="2" goto blodware_op_2
+if "%blodware_op%"=="3" goto blodware_op_3
+if "%blodware_op%"=="4" goto blodware_op_4
+if "%blodware_op%"=="5" goto blodware_op_5
+if "%blodware_op%"=="6" goto blodware_op_6
+if "%blodware_op%"=="7" goto blodware_op_7
+if "%blodware_op%"=="8" goto blodware_op_8
+if "%blodware_op%"=="9" goto blodware_op_9
+if "%blodware_op%"=="10" goto blodware_op_10
+if "%blodware_op%"=="0" goto Base
+goto blodware_win_11
 
+:blodware_op_1
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Killing OneDrive Process
+taskkill /f /im OneDrive.exe
+echo -- Uninstalling OneDrive through the installers
+if exist "%SystemRoot%\System32\OneDriveSetup.exe" (
+    "%SystemRoot%\System32\OneDriveSetup.exe" /uninstall
+)
+if exist "%SystemRoot%\SysWOW64\OneDriveSetup.exe" (
+    "%SystemRoot%\SysWOW64\OneDriveSetup.exe" /uninstall
+)
+
+echo -- Removing OneDrive registry keys
+reg delete "HKEY_CLASSES_ROOT\WOW6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f
+reg delete "HKEY_CLASSES_ROOT\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f
+
+echo -- Removing OneDrive folders
+rd "%UserProfile%\OneDrive" /Q /S
+rd "%LocalAppData%\Microsoft\OneDrive" /Q /S
+rd "%ProgramData%\Microsoft\OneDrive" /Q /S
+rd "C:\OneDriveTemp" /Q /S
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "EdgeEnhanceImagesEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "PersonalizationReportingEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "ShowRecommendationsEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "HideFirstRunExperience" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "UserFeedbackAllowed" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "ConfigureDoNotTrack" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "AlternateErrorPagesEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "EdgeCollectionsEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "EdgeFollowEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "EdgeShoppingAssistantEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "MicrosoftEdgeInsiderPromotionEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "ShowMicrosoftRewards" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "WebWidgetAllowed" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "DiagnosticData" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "EdgeAssetDeliveryServiceEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "CryptoWalletEnabled" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "WalletDonationEnabled" /t REG_DWORD /d 0 /f
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_2
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling Edge
+reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdateDev" /v "AllowUninstall" /t REG_DWORD /d "1" /f
+Powershell -ExecutionPolicy Unrestricted -Command "$installer = (Get-ChildItem \"$($env:ProgramFiles)*\Microsoft\Edge\Application\*\Installer\setup.exe\"); if (!$installer) { Write-Host \"Installer not found. Microsoft Edge may already be uninstalled.\"; } else { $installer | ForEach-Object { $uninstallerPath = $_.FullName; $installerArguments = @(\"--uninstall\", \"--system-level\", \"--verbose-logging\", \"--force-uninstall\"); Write-Output \"Uninstalling through uninstaller: $uninstallerPath\"; $process = Start-Process -FilePath \"$uninstallerPath\" -ArgumentList $installerArguments -Wait -PassThru; if ($process.ExitCode -eq 0 -or $process.ExitCode -eq 19) { Write-Host \"Successfully uninstalled Edge.\"; } else { Write-Error \"Failed to uninstall, uninstaller failed with exit code $($process.ExitCode).\"; }; }; }"
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_3
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling Widgets
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Dsh" /v "AllowNewsAndInterests" /t "REG_DWORD" /d "0" /f
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage *WebExperience* | Remove-AppxPackage"
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy" /f
+
+echo -- Disabling Taskbar Widgets
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarDa" /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests" /v "value" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v "EnableFeeds" /t REG_DWORD /d 0 /f
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_4
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling Microsoft Store
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "*Microsoft.WindowsStore*" | Remove-AppxPackage"
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_5
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling Xbox apps
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Xbox.TCUI" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.XboxGamingOverlay" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.XboxGameOverlay" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.XboxIdentityProvider" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.XboxSpeechToTextOverlay" | Remove-AppxPackage"
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_6
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling Extensions
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.HEIFImageExtension\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.VP9VideoExtensions\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.WebpImageExtension\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.HEVCVideoExtension\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.RawImageExtension\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Microsoft.WebMediaExtensions\" | Remove-AppxPackage"
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_7
+echo -- Uninstalling Microsoft apps
+@echo off
+cls
+echo *** Blodware Removal Menu ***
+echo 1   Remove MicrosoftFamily
+echo 2   Remove OutlookForWindows
+echo 3   Remove Clipchamp
+echo 4   Remove 3DBuilder
+echo 5   Remove Microsoft3DViewer
+echo 6   Remove BingWeather
+echo 7   Remove BingSports
+echo 8   Remove BingFinance
+echo 9   Remove MicrosoftOfficeHub
+echo 10  Remove BingNews
+echo 11  Remove OneNote
+echo 12  Remove Sway
+echo 13  Remove WindowsPhone
+echo 14  Remove CommsPhone
+echo 15  Remove YourPhone
+echo 16  Remove Getstarted
+echo 17  Remove Microsoft549981C3F5F10
+echo 18  Remove Messaging
+echo 19  Remove WindowsSoundRecorder
+echo 20  Remove MixedRealityPortal
+echo 21  Remove WindowsFeedbackHub
+echo 22  Remove WindowsAlarms
+echo 23  Remove WindowsCamera
+echo 24  Remove MSPaint
+echo 25  Remove WindowsMaps
+echo 26  Remove MinecraftUWP
+echo 27  Remove People
+echo 28  Remove Wallet
+echo 29  Remove Print3D
+echo 30  Remove OneConnect
+echo 31  Remove SolitaireCollection
+echo 32  Remove StickyNotes
+echo 33  Remove CommunicationsApps
+echo 34  Remove SkypeApp
+echo 35  Remove GroupMe10
+echo 36  Remove Todos
+echo .
+echo 0 Regresar
+echo Enter your choice (1-36):
+set /p choice=
+if "%choice%"=="0" blodware_win_11
+if "%choice%"=="1" goto blodware_sub_op_1
+if "%choice%"=="2" goto blodware_sub_op_2
+if "%choice%"=="3" goto blodware_sub_op_3
+if "%choice%"=="4" goto blodware_sub_op_4
+if "%choice%"=="5" goto blodware_sub_op_5
+if "%choice%"=="6" goto blodware_sub_op_6
+if "%choice%"=="7" goto blodware_sub_op_7
+if "%choice%"=="8" goto blodware_sub_op_8
+if "%choice%"=="9" goto blodware_sub_op_9
+if "%choice%"=="10" goto blodware_sub_op_10
+if "%choice%"=="11" goto blodware_sub_op_11
+if "%choice%"=="12" goto blodware_sub_op_12
+if "%choice%"=="13" goto blodware_sub_op_13
+if "%choice%"=="14" goto blodware_sub_op_14
+if "%choice%"=="15" goto blodware_sub_op_15
+if "%choice%"=="16" goto blodware_sub_op_16
+if "%choice%"=="17" goto blodware_sub_op_17
+if "%choice%"=="18" goto blodware_sub_op_18
+if "%choice%"=="19" goto blodware_sub_op_19
+if "%choice%"=="20" goto blodware_sub_op_20
+if "%choice%"=="21" goto blodware_sub_op_21
+if "%choice%"=="22" goto blodware_sub_op_22
+if "%choice%"=="23" goto blodware_sub_op_23
+if "%choice%"=="24" goto blodware_sub_op_24
+if "%choice%"=="25" goto blodware_sub_op_25
+if "%choice%"=="26" goto blodware_sub_op_26
+if "%choice%"=="27" goto blodware_sub_op_27
+if "%choice%"=="28" goto blodware_sub_op_28
+if "%choice%"=="29" goto blodware_sub_op_29
+if "%choice%"=="30" goto blodware_sub_op_30
+if "%choice%"=="31" goto blodware_sub_op_31
+if "%choice%"=="32" goto blodware_sub_op_32
+if "%choice%"=="33" goto blodware_sub_op_33
+if "%choice%"=="34" goto blodware_sub_op_34
+if "%choice%"=="35" goto blodware_sub_op_35
+if "%choice%"=="36" goto blodware_sub_op_36
+goto end
+:blodware_sub_op_1
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing MicrosoftFamily
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "MicrosoftCorporationII.MicrosoftFamily" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_2
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing OutlookForWindows
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.OutlookForWindows" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_3
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Clipchamp
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Clipchamp.Clipchamp" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_4
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing 3DBuilder
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.3DBuilder" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_5
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Microsoft3DViewer
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Microsoft3DViewer" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_6
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing BingWeather
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.BingWeather" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_7
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing BingSports
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.BingSports" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_8
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing BingFinance
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.BingFinance" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_9
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing MicrosoftOfficeHub
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.MicrosoftOfficeHub" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_10
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing BingNews
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.BingNews" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_11
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing OneNote
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_12
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Sway
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_13
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing WindowsPhone
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.WindowsPhone" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_14
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing CommsPhone
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.CommsPhone" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_15
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing YourPhone
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.YourPhone" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_16
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Getstarted
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Getstarted" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_17
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Microsoft549981C3F5F10
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.549981C3F5F10" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_18
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Messaging
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_19
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing WindowsSoundRecorder
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.WindowsSoundRecorder" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_20
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing MixedRealityPortal
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.MixedReality.Portal" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_21
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing WindowsFeedbackHub
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.WindowsFeedbackHub" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_22
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing WindowsAlarms
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:blodware_sub_op_23
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing WindowsCamera
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.WindowsCamera" | Remove-AppxPackage"
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_8
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Uninstalling third-party apps
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"king.com.CandyCrushSaga\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"king.com.CandyCrushSodaSaga\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"ShazamEntertainmentLtd.Shazam\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"Flipboard.Flipboard\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"9E2F88E3.Twitter\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"ClearChannelRadioDigital.iHeartRadio\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"D5EA27B7.Duolingo-LearnLanguagesforFree\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"AdobeSystemsIncorporated.AdobePhotoshopExpress\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"PandoraMediaInc.29680B314EFC2\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"46928bounde.EclipseManager\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"ActiproSoftwareLLC.562882FEEB491\" | Remove-AppxPackage"
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage \"SpotifyAB.SpotifyMusic\" | Remove-AppxPackage"
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+
+:blodware_op_9
+echo -- Disabling Taskbar Widgets
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarDa" /t REG_DWORD /d 0 /f
+goto blodware_win_11_menu
+
+:blodware_op_10
+setlocal EnableExtensions DisableDelayedExpansion
+echo -- Removing Copilot
+PowerShell -ExecutionPolicy Unrestricted -Command "Get-AppxPackage "Microsoft.CoPilot" | Remove-AppxPackage"
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t "REG_DWORD" /d "1" /f
+reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t "REG_DWORD" /d "1" /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v "AutoOpenCopilotLargeScreens" /t "REG_DWORD" /d "0" /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t "REG_DWORD" /d "0" /f
+reg add "HKCU\Software\Microsoft\Windows\Shell\Copilot\BingChat" /v "IsUserEligible" /t "REG_DWORD" /d "0" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v "HubsSidebarEnabled" /t "REG_DWORD" /d "0" /f
+pause
+endlocal
+taskkill /f /im explorer.exe & start explorer & exit /b 0
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
