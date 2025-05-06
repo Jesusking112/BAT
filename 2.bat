@@ -1,11 +1,11 @@
 set version=3.0.0
-echo version %version%
 
 set URL=
 msg * Bienvenido a mi intento de herramienta
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Base
 cls
+echo version %version%
 echo ******************************** Menu de Opciones ***********************************
 echo.
 echo (1) Descargar videos (Windows)
